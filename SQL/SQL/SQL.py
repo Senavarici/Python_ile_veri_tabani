@@ -1,5 +1,5 @@
 import sqlite3 as sqlite
-print("** İsim alanı boş bırakılırsa programdan çıkılır **\n")
+print("** İsim ve id alanı boş bırakılırsa programdan çıkılır **\n")
 db = sqlite.connect("kayit.db")
 cs = db.cursor() #cursor ==> işlem yapabilmek için kullanılır
 #cs.execute("create table Students (id integer primary key autoincrement, name, surname, department, number)")
@@ -14,7 +14,7 @@ def tablo():
 tablo()
 
 while True:
-    print("Tabloya veri eklemek için ekle, tablodan veri silmek için sil yazabilirsiniz..\n")
+    print("Tabloya veri eklemek için Ekle, tablodan veri silmek için Sil yazabilirsiniz..\n")
     secim = input("Ekle/Sil: ")
     if secim == 'Ekle':
         name = input("Enter your name: ")
@@ -26,13 +26,15 @@ while True:
         number = input("Enter your number: ")
         cs.execute("insert into Students values(null,?,?,?,?)",(name,surname,department,number))
     elif secim =='Sil':
-        sil = input("Silmek istediğiniz id'yi giriniz: ")
-        cs.execute("delete from Students where id = ?",[sil]) 
-    db.commit() #commit ==> veriyi veri tabanına işlemeyi sağlar
-    tablo()
+        id = input("Silmek istediğiniz id'yi giriniz: ")
+        if id == "":
+            tablo()
+            break
+        cs.execute("delete from Students where id = ?",[id]) 
+        db.commit() #commit ==> veriyi veri tabanına işlemeyi sağlar
+        tablo()
 db.close()
 
-   
 
 
 
